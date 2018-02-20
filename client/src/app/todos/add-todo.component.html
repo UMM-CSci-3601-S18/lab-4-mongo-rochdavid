@@ -1,0 +1,27 @@
+<div layout-gt-sm="row">
+    <div flex-gt-sm="80" flex-offset-gt-sm="10">
+        <mat-card>
+            <mat-card-title>New Todo</mat-card-title>
+                <mat-divider></mat-divider>
+            <mat-card-content>
+            <mat-form-field>
+                <input matInput #input type="text" placeholder="Name" [(ngModel)]="newTodoName">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput #input type="number" placeholder="Age" [(ngModel)]="newTodoAge">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput #input type="text" placeholder="Company" [(ngModel)]="newTodoCompany">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput #input type="text" placeholder="Email" [(ngModel)]="newTodoEmail">
+            </mat-form-field>
+
+                <button mat-raised-button color="primary" #input type="button"
+                    (click)="this.addNewTodo(newTodoName, newTodoAge, newTodoCompany, newTodoEmail)">Add Todo</button>
+            </mat-card-content>
+        </mat-card>
+        <button mat-raised-button (click)="onNoClick()" type="button">Exit</button>
+    </div>
+</div>
+

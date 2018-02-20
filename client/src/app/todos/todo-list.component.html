@@ -1,0 +1,52 @@
+<div>
+    <ol>
+    <button id = "addNewTodo" mat-raised-button (click)="openDialog()">Add A New Todo</button>
+    </ol>
+</div>
+
+
+<div layout-gt-sm="row">
+    <div flex-gt-sm="80" flex-offset-gt-sm="10">
+        <mat-card>
+            <mat-card-title id="todo-list-title">Todos</mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <mat-form-field>
+                    <input matInput id="todoName" #input type="text" placeholder="Filter by name" (input)="todoName = $event.target.value">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput id="todoAge" #input type="number" placeholder="Filter by age" (input)="todoAge = $event.target.value">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput id="todoCompany" #input type="search" placeholder="Search for company" [(ngModel)]="todoCompany" />
+                    <button mat-button id="companyClearSearch" type="button" *ngIf="todoCompany" matSuffix mat-icon-button aria-label="clear" (click)="todoCompany='';loadService()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+                <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
+
+                <mat-accordion *ngIf="todos; else todosError" >
+                <mat-expansion-panel #elem class="todos" [id]="todo.email" *ngFor="let todo of this.filterTodos(todoName, todoAge)">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title  matTooltip="email: {{todo.email}}" >{{todo.name}}</mat-panel-title>
+
+                    </mat-expansion-panel-header>
+                    <mat-panel-description >Works for {{todo.company}}</mat-panel-description>
+                     <mat-panel-description>Age: {{todo.age}} years old</mat-panel-description>
+
+                </mat-expansion-panel>
+                </mat-accordion>
+                <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
+                <ng-template #todosError>
+                    <mat-error>
+                        There was a problem loading the todos. Possibly the server is down or perhaps there are network
+                        issues.
+                    </mat-error>
+                    <mat-error>
+                        Please wait a bit and try again or start the server.
+                    </mat-error>
+                </ng-template>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
