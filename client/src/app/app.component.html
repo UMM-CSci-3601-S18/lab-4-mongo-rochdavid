@@ -3,6 +3,7 @@
         <mat-nav-list>
             <a mat-list-item [routerLink]="['/']" (click)="layout.close()" routerLinkActive="nav-active" [routerLinkActiveOptions]="{exact: true}"><mat-icon>home</mat-icon>Home</a>
             <a mat-list-item [routerLink]="['/users']" (click)="layout.close()" routerLinkActive="nav-active"><mat-icon>account_box</mat-icon>Users</a>
+            <a mat-list-item [routerLink]="['/todos']" (click)="layout.close()" routerLinkActive="nav-active"><mat-icon>account_box</mat-icon>Todos</a>
         </mat-nav-list>
     </td-navigation-drawer>
     <td-layout-nav  toolbarTitle="Menu" navigationRoute="/">
