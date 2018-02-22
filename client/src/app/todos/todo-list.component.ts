@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {TodoListService} from "./todo-list.service";
-import {Todo} from "./todo";
-import {Observable} from "rxjs";
+import {TodoListService} from './todo-list.service';
+import {Todo} from './todo';
+import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material';
-import {AddTodoComponent} from "./add-todo.component"
+import {AddTodoComponent} from './add-todo.component';
 
 @Component({
     selector: 'todo-list-component',
@@ -16,9 +16,9 @@ export class TodoListComponent implements OnInit {
     public todos: Todo[];
     public filteredTodos: Todo[];
 
-    public todoOwner : string;
+    public todoOwner: string;
 
-    public loadReady: boolean = false;
+    public loadReady = false;
 
     //Inject the TodoListService into this component.
     //That's what happens in the following constructor.
@@ -30,7 +30,7 @@ export class TodoListComponent implements OnInit {
     }
 
     openDialog(): void {
-        let dialogRef = this.dialog.open(AddTodoComponent, {
+        const dialogRef = this.dialog.open(AddTodoComponent, {
             width: '500px',
         });
 
@@ -44,7 +44,7 @@ export class TodoListComponent implements OnInit {
 
         this.filteredTodos = this.todos;
 
-        //Filter by owner
+        // Filter by owner
         if (searchOwner != null) {
             searchOwner = searchOwner.toLocaleLowerCase();
 
@@ -67,7 +67,7 @@ export class TodoListComponent implements OnInit {
         //Subscribe waits until the data is fully downloaded, then
         //performs an action on it (the first lambda)
 
-        let todos : Observable<Todo[]> = this.todoListService.getTodos();
+        const todos: Observable<Todo[]> = this.todoListService.getTodos();
         todos.subscribe(
             todos => {
                 this.todos = todos;
@@ -79,10 +79,10 @@ export class TodoListComponent implements OnInit {
         return todos;
     }
 
-/*
+
     loadService(): void {
         this.loadReady = true;
-        this.todoListService.getTodos(this.todoCompany).subscribe(
+        this.todoListService.getTodos(this.todoOwner).subscribe(
             todos => {
                 this.todos = todos;
                 this.filteredTodos = this.todos;
@@ -92,10 +92,10 @@ export class TodoListComponent implements OnInit {
             }
         );
     }
-*/
+
 
     ngOnInit(): void {
         this.refreshTodos();
-//        this.loadService();
+        this.loadService();
     }
 }
