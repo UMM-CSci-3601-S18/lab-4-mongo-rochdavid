@@ -20,7 +20,14 @@
                 <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
 
                 <mat-accordion *ngIf="todos; else todosError" >
+                    <mat-expansion-panel #elem class="todos" [id]="todo.owner" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoOwner)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{todo.owner}}</mat-panel-title>
 
+                        </mat-expansion-panel-header>
+                        <mat-panel-description >Works for {{todo.company}}</mat-panel-description>
+                        <mat-panel-description>Age: {{todo.age}} years old</mat-panel-description>
+                    </mat-expansion-panel>
                 </mat-accordion>
                 <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
                 <ng-template #todosError>

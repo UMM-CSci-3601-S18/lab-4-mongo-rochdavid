@@ -12,21 +12,28 @@ import {AddTodoComponent} from './add-todo.component';
 })
 
 export class TodoListComponent implements OnInit {
-    //These are public so that tests can reference them (.spec.ts)
+    // These are public so that tests can reference them (.spec.ts)
     public todos: Todo[];
     public filteredTodos: Todo[];
+
+    // The ID of the
+    private highlightedID: {'$oid': string} = { '$oid': '' };
 
     public todoOwner: string;
 
     public loadReady = false;
 
-    //Inject the TodoListService into this component.
-    //That's what happens in the following constructor.
-    //panelOpenState: boolean = false;
-    //We can call upon the service for interacting
-    //with the server.
+    // Inject the TodoListService into this component.
+    // That's what happens in the following constructor.
+    // panelOpenState: boolean = false;
+    // We can call upon the service for interacting
+    // with the server.
     constructor(public todoListService: TodoListService, public dialog: MatDialog) {
 
+    }
+
+    isHighlighted(todo: Todo): boolean {
+        return todo._id['$oid'] === this.highlightedID['$oid'];
     }
 
     openDialog(): void {
@@ -52,7 +59,6 @@ export class TodoListComponent implements OnInit {
                 return !searchOwner || todo.owner.toLowerCase().indexOf(searchOwner) !== -1;
             });
         }
-
         return this.filteredTodos;
     }
 
@@ -61,10 +67,10 @@ export class TodoListComponent implements OnInit {
      *
      */
     refreshTodos(): Observable<Todo[]> {
-        //Get Todos returns an Observable, basically a "promise" that
-        //we will get the data from the server.
+        // Get Todos returns an Observable, basically a "promise" that
+        // we will get the data from the server.
         //
-        //Subscribe waits until the data is fully downloaded, then
+        // Subscribe waits until the data is fully downloaded, then
         //performs an action on it (the first lambda)
 
         const todos: Observable<Todo[]> = this.todoListService.getTodos();

@@ -57,7 +57,6 @@ public class TodoRequestHandler {
     public String getTodos(Request req, Response res)
     {
         res.type("application/json");
-        System.out.println("herreerer");
         return todoController.getTodos(req.queryMap().toMap());
     }
 

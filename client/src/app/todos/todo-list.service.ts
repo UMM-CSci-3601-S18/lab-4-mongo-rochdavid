@@ -16,9 +16,7 @@ export class TodoListService {
     }
 
     getTodos(todoOwner?: string): Observable<Todo[]> {
-        console.log('here');
         this.filterByOwner(todoOwner);
-        console.log(this.todoUrl);
         return this.http.get<Todo[]>(this.todoUrl);
     }
 
