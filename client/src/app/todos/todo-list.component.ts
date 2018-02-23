@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TodoListService} from './todo-list.service';
 import {Todo} from './todo';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {MatDialog} from '@angular/material';
 import {AddTodoComponent} from './add-todo.component';
 
@@ -16,14 +16,15 @@ export class TodoListComponent implements OnInit {
     public todos: Todo[];
     public filteredTodos: Todo[];
 
-    // The ID of the
-    private highlightedID: {'$oid': string} = { '$oid': '' };
-
     public todoCategory: string;
     public todoOwner: string;
     public todoBody: string;
     public todoStatus: boolean;
     public loadReady = false;
+
+
+    // The ID of the
+    private highlightedID: {'$oid': string} = { '$oid': '' };
 
     // Inject the TodoListService into this component.
     // That's what happens in the following constructor.
@@ -39,15 +40,25 @@ export class TodoListComponent implements OnInit {
     }
 
     openDialog(): void {
+        const newTodo: Todo = {_id: '', owner: '', category: '', status: true, body: ''};
         const dialogRef = this.dialog.open(AddTodoComponent, {
             width: '500px',
+            data: { todo: newTodo }
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+            this.todoListService.addNewTodo(result).subscribe(
+                result => {
+                    this.highlightedID = result;
+                    this.refreshTodos();
+                },
+                err => {
+                    // This should probably be turned into some sort of meaningful response.
+                    console.log('There was an error adding the todo.');
+                    console.log('The error was ' + JSON.stringify(err));
+                });
         });
     }
-
 
     public filterTodos(searchCategory: string, searchBody: string, searchStatus: boolean): Todo[] {
 

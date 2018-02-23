@@ -80,12 +80,15 @@ public class TodoRequestHandler {
                 try {
                     BasicDBObject dbO = (BasicDBObject) o;
 
+                    String owner = dbO.getString("owner");
                     //For some reason age is a string right now, caused by angular.
                     //This is a problem and should not be this way but here ya go
-                    String owner = dbO.getString("owner");
+                    boolean status = dbO.getBoolean("status");
+                    String category = dbO.getString("category");
+                    String body = dbO.getString("body");
 
-                    System.err.println("Adding new todo [owner=" + owner + ']');
-                    return todoController.addNewTodo(owner).toString();
+                    System.err.println("Adding new user [owner=" + owner + ", category=" + category + " status=" + status + " body=" + body + ']');
+                    return todoController.addNewTodo(owner, category, status, body).toString();
                 }
                 catch(NullPointerException e)
                 {

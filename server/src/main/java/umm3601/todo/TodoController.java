@@ -89,17 +89,23 @@ public class TodoController {
      * Helper method which appends received todos information to the to-be added document
      *
      * @param owner
+     * @param category
+     * @param status
+     * @param body
      * @return boolean after successfully or unsuccessfully adding a todos
      */
-    public String addNewTodo(String owner) {
+    public String addNewTodo(String owner, String category, boolean status, String body) {
 
         Document newTodo = new Document();
         newTodo.append("owner", owner);
+        newTodo.append("status", status);
+        newTodo.append("category", category);
+        newTodo.append("body", body);
 
         try {
             todoCollection.insertOne(newTodo);
             ObjectId id = newTodo.getObjectId("_id");
-            System.err.println("Successfully added new todo [" + "owner=" + owner + ']');
+            System.err.println("Successfully added new user [_id=" + id + ", owner=" + owner + ", category=" + category + " status=" + status + " body=" + body + ']');
             // return JSON.serialize(newTodo);
             return JSON.serialize(id);
         } catch(MongoException me) {
