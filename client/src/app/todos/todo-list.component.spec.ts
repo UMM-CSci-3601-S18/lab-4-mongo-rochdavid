@@ -25,34 +25,32 @@ describe('Todo list', () => {
         todoListServiceStub = {
             getTodos: () => Observable.of([
                 {
-                    _id: 'jamie_id',
-                    owner: 'Adam',
-                    status: true,
-                    body: 'Frogs, Inc.',
-                    category: 'jamie@frogs.com'
-                },
-                {
-                    _id: 'jamie_id',
-                    owner: 'Brad',
-                    status: true,
-                    body: 'Frogs, Inc.',
-                    category: 'jamie@frogs.com'
-                },
-                {
-                    _id: 'jamie_id',
-                    owner: 'Chuck',
+                    _id: 'chris_id',
+                    owner: 'Chris',
                     status: false,
-                    body: 'Frogs, Inc.',
-                    category: 'jamie@frogs.com'
-
+                    category: 'UMM',
+                    body: 'chris@this.that'
+                },
+                {
+                    _id: 'pat_id',
+                    owner: 'Pat',
+                    status: false,
+                    category: 'IBM',
+                    body: 'pat@something.com'
                 },
                 {
                     _id: 'jamie_id',
-                    owner: 'Chuck',
+                    owner: 'Jamie',
                     status: true,
-                    body: 'Frogs, Inc.',
-                    category: 'jamie@frogs.com'
-
+                    category: 'Frogs, Inc.',
+                    body: 'jamie@toads.com'
+                },
+                {
+                    _id: 'jamie_id',
+                    owner: 'Jamie',
+                    status: false,
+                    category: 'Frogs, Inc.',
+                    body: 'jamie@frogs.com'
                 }
             ])
         };
@@ -79,29 +77,47 @@ describe('Todo list', () => {
         expect(todoList.todos.length).toBe(4);
     });
 
-    it('contains a todo with owner \'Adam\'', () => {
-        expect(todoList.todos.some((todo: Todo) => todo.owner === 'Adam')).toBe(true);
+    it('contains a todo with owner \'Chris\'', () => {
+        expect(todoList.todos.some((todo: Todo) => todo.owner === 'Chris')).toBe(true);
     });
 
-    it('contain a todo with owner \'Brad\'', () => {
-        expect(todoList.todos.some((todo: Todo) => todo.owner === 'Brad')).toBe(true);
+    it('contain a todo with owner \'Jamie\'', () => {
+        expect(todoList.todos.some((todo: Todo) => todo.owner === 'Jamie')).toBe(true);
     });
 
     it('doesn\'t contain a todo with owner \'Santa\'', () => {
         expect(todoList.todos.some((todo: Todo) => todo.owner === 'Santa')).toBe(false);
     });
 
-    it('has two todos with owner Chuck', () => {
-        expect(todoList.todos.filter((todo: Todo) => todo.owner === 'Chuck').length).toBe(2);
+    it('has two todos that their status is false', () => {
+        expect(todoList.todos.filter((todo: Todo) => todo.status === false).length).toBe(3);
     });
 
-    /*it('todo list filters by owner', () => {
+    it('todo list filters by category', () => {
         expect(todoList.filteredTodos.length).toBe(4);
-        todoList.todoOwner = 'a';
+        todoList.todoCategory = 'm';
         todoList.refreshTodos().subscribe(() => {
             expect(todoList.filteredTodos.length).toBe(2);
         });
-    });*/
+    });
+
+    it('todo list filters by status', () => {
+        expect(todoList.filteredTodos.length).toBe(4);
+        todoList.todoStatus = true;
+        todoList.refreshTodos().subscribe(() => {
+            expect(todoList.filteredTodos.length).toBe(1);
+        });
+    });
+
+    it('todo list filters by owner and status', () => {
+        expect(todoList.filteredTodos.length).toBe(4);
+        todoList.todoStatus = true;
+        todoList.todoOwner = 'i';
+        todoList.refreshTodos().subscribe(() => {
+            expect(todoList.filteredTodos.length).toBe(1);
+        });
+    });
+
 });
 
 describe('Misbehaving Todo List', () => {
@@ -141,3 +157,76 @@ describe('Misbehaving Todo List', () => {
         expect(todoList.todos).toBeUndefined();
     });
 });
+
+
+/*describe('Adding a todo', () => {
+    let todoList: TodoListComponent;
+    let fixture: ComponentFixture<TodoListComponent>;
+    const newTodo: Todo = {
+        _id: '',
+        owner: 'Sam',
+        status: true,
+        category: 'Things and stuff',
+        body: 'sam@this.and.that'
+    };
+    const newId = 'sam_id';
+
+    let calledTodo: Todo;
+
+    let todoListServiceStub: {
+        getTodos: () => Observable<Todo[]>,
+        addNewTodo: (newTodo: Todo) => Observable<{'$oid': string}>
+    };
+    let mockMatDialog: {
+        open: (AddTodoComponent, any) => {
+            afterClosed: () => Observable<Todo>
+        };
+    };
+
+    beforeEach(() => {
+        calledTodo = null;
+        // stub TodoService for test purposes
+        todoListServiceStub = {
+            getTodos: () => Observable.of([]),
+            addNewTodo: (newTodo: Todo) => {
+                calledTodo = newTodo;
+                return Observable.of({
+                    '$oid': newId
+                });
+            }
+        };
+        mockMatDialog = {
+            open: () => {
+                return {
+                    afterClosed: () => {
+                        return Observable.of(newTodo);
+                    }
+                };
+            }
+        };
+
+        TestBed.configureTestingModule({
+            imports: [FormsModule, CustomModule],
+            declarations: [TodoListComponent],
+            providers: [
+                {provide: TodoListService, useValue: todoListServiceStub},
+                {provide: MatDialog, useValue: mockMatDialog},
+                {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}]
+        });
+    });
+
+    beforeEach(async(() => {
+        TestBed.compileComponents().then(() => {
+            fixture = TestBed.createComponent(TodoListComponent);
+            todoList = fixture.componentInstance;
+            fixture.detectChanges();
+        });
+    }));
+
+    it('calls TodoListService.addTodo', () => {
+        expect(calledTodo).toBeNull();
+        todoList.openDialog();
+        expect(calledTodo).toEqual(newTodo);
+    });
+});*/
+
