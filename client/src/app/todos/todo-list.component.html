@@ -12,6 +12,9 @@
             <mat-divider></mat-divider>
             <mat-card-content>
                 <mat-form-field>
+                    <input matInput id="todoCategory" #input type="text" placeholder="Filter by category" (input)="todoCategory = $event.target.value">
+                </mat-form-field>
+                <mat-form-field>
                     <input matInput id="todoOwner" #input type="search" placeholder="Search for owner" [(ngModel)]="todoOwner" />
                     <button mat-button id="ownerClearSearch" type="button" *ngIf="todoOwner" matSuffix mat-icon-button aria-label="clear" (click)="todoOwner='';loadService()">
                         <mat-icon>close</mat-icon>
@@ -20,13 +23,12 @@
                 <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
 
                 <mat-accordion *ngIf="todos; else todosError" >
-                    <mat-expansion-panel #elem class="todos" [id]="todo.owner" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoOwner)">
+                    <mat-expansion-panel #elem class="todos" [id]="todo.owner" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoCategory)">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{todo.owner}}</mat-panel-title>
 
                         </mat-expansion-panel-header>
-                        <mat-panel-description >Works for {{todo.company}}</mat-panel-description>
-                        <mat-panel-description>Age: {{todo.age}} years old</mat-panel-description>
+                        <mat-panel-description >Works for {{todo.category}}</mat-panel-description>
                     </mat-expansion-panel>
                 </mat-accordion>
                 <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->

@@ -19,6 +19,7 @@ export class TodoListComponent implements OnInit {
     // The ID of the
     private highlightedID: {'$oid': string} = { '$oid': '' };
 
+    public todoCategory: string;
     public todoOwner: string;
 
     public loadReady = false;
@@ -47,16 +48,16 @@ export class TodoListComponent implements OnInit {
     }
 
 
-    public filterTodos(searchOwner: string): Todo[] {
+    public filterTodos(searchCategory: string): Todo[] {
 
         this.filteredTodos = this.todos;
 
-        // Filter by owner
-        if (searchOwner != null) {
-            searchOwner = searchOwner.toLocaleLowerCase();
+        // Filter by category
+        if (searchCategory != null) {
+            searchCategory = searchCategory.toLocaleLowerCase();
 
             this.filteredTodos = this.filteredTodos.filter(todo => {
-                return !searchOwner || todo.owner.toLowerCase().indexOf(searchOwner) !== -1;
+                return !searchCategory || todo.category.toLowerCase().indexOf(searchCategory) !== -1;
             });
         }
         return this.filteredTodos;
@@ -71,13 +72,13 @@ export class TodoListComponent implements OnInit {
         // we will get the data from the server.
         //
         // Subscribe waits until the data is fully downloaded, then
-        //performs an action on it (the first lambda)
+        // performs an action on it (the first lambda)
 
         const todos: Observable<Todo[]> = this.todoListService.getTodos();
         todos.subscribe(
             todos => {
                 this.todos = todos;
-                this.filterTodos(this.todoOwner);
+                this.filterTodos(this.todoCategory);
             },
             err => {
                 console.log(err);
