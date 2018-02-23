@@ -84,7 +84,6 @@ public class UserController {
 
         //FindIterable comes from mongo, Document comes from Gson
         FindIterable<Document> matchingUsers = userCollection.find(filterDoc);
-        System.out.println(JSON.serialize(matchingUsers).length());
 
         return JSON.serialize(matchingUsers);
     }

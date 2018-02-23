@@ -69,7 +69,6 @@ public class TodoController {
     public String getTodos(Map<String, String[]> queryParams) {
 
         Document filterDoc = new Document();
-        System.out.println(filterDoc.size() + "todos");
 
         if (queryParams.containsKey("owner")) {
             String targetContent = (queryParams.get("owner")[0]);
