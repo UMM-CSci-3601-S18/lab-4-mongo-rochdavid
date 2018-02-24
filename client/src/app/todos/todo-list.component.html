@@ -11,9 +11,14 @@
             <mat-card-title id="todo-list-title">Todos</mat-card-title>
             <mat-divider></mat-divider>
             <mat-card-content>
-                <mat-form-field>
-                    <input matInput id="todoStatus" #input type="boolean" placeholder="Filter by status" (input)="todoStatus = $event.target.value">
-                </mat-form-field>
+                <form>
+                    <label>Status: </label>
+                    <select name="dropdown" id="todoStatus" #input (input)="todoStatus = $event.target.value">
+                        <option value="" id="empty"></option>
+                        <option value="false" id="false">False</option>
+                        <option value="true" id="true">True</option>
+                    </select>
+                </form>
                 <mat-form-field>
                     <input matInput id="todoBody" #input type="text" placeholder="Filter by body" (input)="todoBody = $event.target.value">
                 </mat-form-field>
