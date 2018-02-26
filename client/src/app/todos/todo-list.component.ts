@@ -64,6 +64,10 @@ export class TodoListComponent implements OnInit {
 
         this.filteredTodos = this.todos;
 
+        if (searchStatus == null) {
+            this.filteredTodos = this.todos;
+        }
+
         // Filter by category
         if (searchCategory != null) {
             searchCategory = searchCategory.toLocaleLowerCase();
@@ -82,9 +86,15 @@ export class TodoListComponent implements OnInit {
         }
         // Filter by status
         if (searchStatus != null) {
+            console.log(searchStatus);
+
             this.filteredTodos = this.filteredTodos.filter((todo: Todo) => {
-                return !searchStatus || (todo.status.toString().toLocaleLowerCase() === String(searchStatus).toLocaleLowerCase());
-            });
+                if (searchStatus.toString().toLowerCase() == "false"){
+                    return todo.status == false;
+                } else if (searchStatus.toString().toLowerCase() == "true" ) {
+                    return todo.status == true;
+                  }
+                });
         }
         return this.filteredTodos;
     }

@@ -13,11 +13,11 @@
             <mat-card-content>
                 <form>
                     <label>Status: </label>
-                    <select name="dropdown" id="todoStatus" #input (input)="todoStatus = $event.target.value">
-                        <option value="" id="empty"></option>
-                        <option value="false" id="false">False</option>
-                        <option value="true" id="true">True</option>
-                    </select>
+                    <mat-select name="dropdown" id="todoStatus" (click)="todoStatus = todoStatus">
+                        <mat-option value="" id="empty" (click)="todoStatus = null"></mat-option>
+                        <mat-option value="false" id="false" (click)="todoStatus = false" >False</mat-option>
+                        <mat-option value="true" id="true" (click)="todoStatus = true">True</mat-option>
+                    </mat-select>
                 </form>
                 <mat-form-field>
                     <input matInput id="todoBody" #input type="text" placeholder="Filter by body" (input)="todoBody = $event.target.value">

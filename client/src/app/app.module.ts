@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
+import {MatSelectModule} from '@angular/material/select';
+
 
 
 import {HttpClientModule} from '@angular/common/http';
@@ -27,6 +29,7 @@ import {AddTodoComponent} from './todos/add-todo.component';
         HttpClientModule,
         Routing,
         CustomModule,
+        MatSelectModule
     ],
     declarations: [
         AppComponent,
