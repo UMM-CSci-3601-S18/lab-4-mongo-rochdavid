@@ -4,8 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
 
-
-
 import {HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';

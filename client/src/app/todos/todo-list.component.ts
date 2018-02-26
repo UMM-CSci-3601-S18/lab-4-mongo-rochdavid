@@ -21,7 +21,7 @@ export class TodoListComponent implements OnInit {
     public todoBody: string;
     public todoStatus: boolean;
     public loadReady = false;
-
+    public index = 0;
 
     // The ID of the
     private highlightedID: {'$oid': string} = { '$oid': '' };
@@ -86,13 +86,11 @@ export class TodoListComponent implements OnInit {
         }
         // Filter by status
         if (searchStatus != null) {
-            console.log(searchStatus);
-
             this.filteredTodos = this.filteredTodos.filter((todo: Todo) => {
-                if (searchStatus.toString().toLowerCase() == "false"){
-                    return todo.status == false;
-                } else if (searchStatus.toString().toLowerCase() == "true" ) {
-                    return todo.status == true;
+                if (searchStatus.toString().toLowerCase() === 'false') {
+                    return todo.status === false;
+                } else if (searchStatus.toString().toLowerCase() === 'true' ) {
+                    return todo.status === true;
                   }
                 });
         }

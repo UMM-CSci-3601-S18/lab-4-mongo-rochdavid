@@ -34,15 +34,18 @@
                 <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
 
                 <mat-accordion *ngIf="todos; else todosError" >
-                    <mat-expansion-panel *ngFor="let todo of this.filterTodos(todoCategory,todoBody, todoStatus)">
+                    <mat-expansion-panel *ngFor="let todo of this.filterTodos(todoCategory,todoBody, todoStatus) | slice:index:index+10; let i=index">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{todo.owner}}</mat-panel-title>
 
                         </mat-expansion-panel-header>
-                        <mat-panel-description >Category: {{todo.category}}</mat-panel-description>
+                        <mat-panel-description >Categor: {{todo.category}}</mat-panel-description>
                         <mat-panel-description >Body: {{todo.body}}</mat-panel-description>
                         <mat-panel-description >Status: {{todo.status}}</mat-panel-description>
                     </mat-expansion-panel>
+                    <button mat-button id="next index" type="button" matSuffix mat-icon-button aria-label="clear" (click)="index=index+10;loadService()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
                 </mat-accordion>
                 <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
                 <ng-template #todosError>
