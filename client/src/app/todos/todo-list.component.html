@@ -43,8 +43,17 @@
                         <mat-panel-description >Body: {{todo.body}}</mat-panel-description>
                         <mat-panel-description >Status: {{todo.status}}</mat-panel-description>
                     </mat-expansion-panel>
-                    <button mat-button id="next index" type="button" matSuffix mat-icon-button aria-label="clear" (click)="index=index+10;loadService()">
+                    <button mat-button id="first index" type="button" matSuffix mat-icon-button aria-label="clear" (click)="index=0;">
+                        <mat-icon>first_page</mat-icon>
+                    </button>
+                    <button mat-button id="previous index" type="button" matSuffix mat-icon-button aria-label="clear" (click)="index=index-10;">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <button mat-button id="next index" type="button" matSuffix mat-icon-button aria-label="clear" (click)="index=index+10;">
                         <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                    <button mat-button id="last index" type="button" matSuffix mat-icon-button aria-label="clear" (click)="index=280;">
+                        <mat-icon>last_page</mat-icon>
                     </button>
                 </mat-accordion>
                 <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
