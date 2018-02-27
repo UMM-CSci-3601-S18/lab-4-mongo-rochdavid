@@ -10,9 +10,13 @@
                 <mat-form-field>
                     <input matInput #input id="categoryField" placeholder="Category" [(ngModel)]="data.todo.category">
                 </mat-form-field>
-                <mat-form-field>
-                    <input matInput #input id="statusField" type="boolean" placeholder="Status" [(ngModel)]="data.todo.status">
-                </mat-form-field>
+                <form>
+                    <label>Status: </label>
+                    <mat-select name="dropdown" id="statusField">
+                        <mat-option value="false" id="false" (click)="todoStatus = false" >False</mat-option>
+                        <mat-option value="true" id="true" (click)="todoStatus = true">True</mat-option>
+                    </mat-select>
+                </form>
                 <mat-form-field>
                     <input matInput #input id="bodyField" placeholder="Body" [(ngModel)]="data.todo.body">
                 </mat-form-field>
