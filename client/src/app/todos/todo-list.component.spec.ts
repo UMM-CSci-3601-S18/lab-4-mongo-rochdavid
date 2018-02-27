@@ -101,13 +101,22 @@ describe('Todo list', () => {
         });
     });
 
-    it('todo list filters by status', () => {
+    it('todo list filters by status true', () => {
         expect(todoList.filteredTodos.length).toBe(4);
         todoList.todoStatus = true;
         todoList.refreshTodos().subscribe(() => {
             expect(todoList.filteredTodos.length).toBe(1);
         });
     });
+
+    it('todo list filters by status false', () => {
+        expect(todoList.filteredTodos.length).toBe(4);
+        todoList.todoStatus = false;
+        todoList.refreshTodos().subscribe(() => {
+            expect(todoList.filteredTodos.length).toBe(3);
+        });
+    });
+
 
     it('todo list filters by owner and status', () => {
         expect(todoList.filteredTodos.length).toBe(4);
@@ -117,7 +126,13 @@ describe('Todo list', () => {
             expect(todoList.filteredTodos.length).toBe(1);
         });
     });
-
+    it('todo list filters by body', () => {
+        expect(todoList.filteredTodos.length).toBe(4);
+        todoList.todoBody = 'jamie@toads.com';
+        todoList.refreshTodos().subscribe(() => {
+            expect(todoList.filteredTodos.length).toBe(1);
+        });
+    });
 });
 
 describe('Misbehaving Todo List', () => {
