@@ -174,7 +174,7 @@ describe('Misbehaving Todo List', () => {
 });
 
 
-/*describe('Adding a todo', () => {
+describe('Adding a todo', () => {
     let todoList: TodoListComponent;
     let fixture: ComponentFixture<TodoListComponent>;
     const newTodo: Todo = {
@@ -243,5 +243,5 @@ describe('Misbehaving Todo List', () => {
         todoList.openDialog();
         expect(calledTodo).toEqual(newTodo);
     });
-});*/
+});
 

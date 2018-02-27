@@ -136,14 +136,14 @@ describe('Todo list service: ', () => {
         req.flush(targetTodo);
     });
 
-/*    it('adding a todo calls api/todos/new', () => {
+    it('adding a todo calls api/todos/new', () => {
         const jesse_id = { '$oid': 'jesse_id' };
         const newTodo: Todo = {
-            _id: '',
-            owner: 'Jesse',
-            status: false,
-            category: 'Smithsonian',
-            body: 'jesse@stuff.com'
+            _id: 'jamie_id',
+            owner: 'Chuck',
+            status: true,
+            body: 'Frogs, Inc.',
+            category: 'jamie@frogs.com'
         };
 
         todoListService.addNewTodo(newTodo).subscribe(
@@ -156,5 +156,5 @@ describe('Todo list service: ', () => {
         const req = httpTestingController.expectOne(expectedUrl);
         expect(req.request.method).toEqual('POST');
         req.flush(jesse_id);
-    });*/
+    });
 });
