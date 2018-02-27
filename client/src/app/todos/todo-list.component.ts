@@ -21,6 +21,7 @@ export class TodoListComponent implements OnInit {
     public todoBody: string;
     public todoStatus: boolean;
     public loadReady = false;
+    public length = 301;
     public index = 0;
 
     // The ID of the
@@ -94,6 +95,15 @@ export class TodoListComponent implements OnInit {
                   }
                 });
         }
+        length = this.filteredTodos.length;
+        if (this.index + 10 > length) {
+            this.index = length - 10;
+        }
+        if (this.index - 10 < 0) {
+            this.index = 0;
+        }
+        console.log('index: ' + this.index);
+        console.log('length: ' + length);
         return this.filteredTodos;
     }
 
@@ -116,7 +126,7 @@ export class TodoListComponent implements OnInit {
             },
             err => {
                 console.log(err);
-            });
+            })
         return todos;
     }
 
