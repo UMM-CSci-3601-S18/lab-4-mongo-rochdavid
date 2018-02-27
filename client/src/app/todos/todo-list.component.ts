@@ -102,8 +102,6 @@ export class TodoListComponent implements OnInit {
         if (this.index - 10 < 0) {
             this.index = 0;
         }
-        console.log('index: ' + this.index);
-        console.log('length: ' + length);
         return this.filteredTodos;
     }
 
@@ -126,7 +124,7 @@ export class TodoListComponent implements OnInit {
             },
             err => {
                 console.log(err);
-            })
+            });
         return todos;
     }
 

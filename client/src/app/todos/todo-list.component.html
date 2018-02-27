@@ -67,6 +67,11 @@
                     </mat-error>
                 </ng-template>
             </mat-card-content>
+            <section class="example-section">
+                <mat-progress-bar
+                    [value]="(index / length) * 100">
+                </mat-progress-bar>
+            </section>
         </mat-card>
     </div>
 </div>

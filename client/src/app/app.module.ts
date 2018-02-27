@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import {HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
@@ -27,7 +28,8 @@ import {AddTodoComponent} from './todos/add-todo.component';
         HttpClientModule,
         Routing,
         CustomModule,
-        MatSelectModule
+        MatSelectModule,
+        MatProgressBarModule
     ],
     declarations: [
         AppComponent,
