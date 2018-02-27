@@ -34,7 +34,7 @@
                 <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
 
                 <mat-accordion *ngIf="todos; else todosError" >
-                    <mat-expansion-panel *ngFor="let todo of this.filterTodos(todoCategory,todoBody, todoStatus) | slice:index:index+10; let i=index;">
+                    <mat-expansion-panel #elem class="todos" [id]="todo.body" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoCategory,todoBody, todoStatus) | slice:index:index+10; let i=index;">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{todo.owner}}</mat-panel-title>
 

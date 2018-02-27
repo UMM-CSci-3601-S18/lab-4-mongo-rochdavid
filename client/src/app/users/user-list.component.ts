@@ -71,7 +71,7 @@ export class UserListComponent implements OnInit {
         // Filter by age
         if (searchAge != null) {
             this.filteredUsers = this.filteredUsers.filter(user => {
-                return !searchAge || user.age === searchAge;
+                return !searchAge || user.age == searchAge;
             });
         }
 
