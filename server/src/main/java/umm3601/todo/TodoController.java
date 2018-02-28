@@ -6,6 +6,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
+import com.mongodb.util.JSONSerializers;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -126,28 +127,27 @@ public class TodoController {
         }
     }
 
-    public String getTodoSummary(){
+    public String getTodoSummary() {
+
         float count = todoCollection.count();
         float percent = 100/count;
 
-        AggregateIterable<Document> categories = todoCollection.aggregate(
+        AggregateIterable<Document> breakdownOwner = todoCollection.aggregate(
             Arrays.asList(
-                Aggregates.group("$category", Accumulators.sum("count", 1))
+                Aggregates.group("$owner", Accumulators.sum("count", 1), Accumulators.sum("percentage_of_total_todos", percent))
             )
         );
 
-        AggregateIterable<Document> owners = todoCollection.aggregate(
+        AggregateIterable<Document> test = todoCollection.aggregate(
+
             Arrays.asList(
-                Aggregates.group("$owner", Accumulators.sum("count", 1))
+                Aggregates.group("$owner", Accumulators.sum("count_complete", 1))
             )
         );
 
-        AggregateIterable<Document> statuss = todoCollection.aggregate(
-            Arrays.asList(
-                Aggregates.match(Filters.eq("status", true)),
-                Aggregates.group("$status", Accumulators.sum("count", 1))
-            )
-        );
+
+
+
 
         AggregateIterable<Document> finOwner = todoCollection.aggregate(
 
@@ -177,9 +177,8 @@ public class TodoController {
             )
         );
 
-        List pipe = Arrays.asList(owners, statuss);
+        List pipe = Arrays.asList(breakdownOwner,test, finOwner,catOwner,bodyOwner);
 
         return JSON.serialize(pipe);
-
     }
 }

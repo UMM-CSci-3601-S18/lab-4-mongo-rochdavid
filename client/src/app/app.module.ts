@@ -1,9 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatPaginatorModule} from '@angular/material';
+import {MatTableModule} from '@angular/material/table';
 
 import {HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
@@ -29,7 +31,9 @@ import {AddTodoComponent} from './todos/add-todo.component';
         Routing,
         CustomModule,
         MatSelectModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatPaginatorModule,
+        MatTableModule
     ],
     declarations: [
         AppComponent,
