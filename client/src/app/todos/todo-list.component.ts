@@ -21,7 +21,7 @@ export class TodoListComponent implements OnInit {
     public todoBody: string;
     public todoStatus: boolean;
     public loadReady = false;
-    public length = 301;
+    public length = 300;
     public index = 0;
 
     // The ID of the
@@ -64,7 +64,6 @@ export class TodoListComponent implements OnInit {
     public filterTodos(searchCategory: string, searchBody: string, searchStatus: boolean): Todo[] {
 
         this.filteredTodos = this.todos;
-
         if (searchStatus == null) {
             this.filteredTodos = this.todos;
         }

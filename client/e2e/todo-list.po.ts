@@ -26,14 +26,6 @@ export class TodoPage {
 
         return title;
     }
-
-    typeAOwner(owner: string) {
-        const input = element(by.id('todoOwner'));
-        input.click();
-        input.sendKeys(owner);
-        const selectButton = element(by.id('submit'));
-        selectButton.click();
-    }
     typeABody(body: string) {
         const input = element(by.id('todoBody'));
         input.click();
@@ -43,9 +35,6 @@ export class TodoPage {
         const input = element(by.id('todoCategory'));
         input.click();
         input.sendKeys(category);
-    }
-    selectUpKey() {
-        browser.actions().sendKeys(Key.ARROW_UP).perform();
     }
     backspace() {
         browser.actions().sendKeys(Key.BACK_SPACE).perform();
@@ -62,9 +51,9 @@ export class TodoPage {
         const selectButton = element(by.id('submit'));
         selectButton.click();
     }
-    getUniqueTodo(body: string) {
-        const todo = element(by.id(body)).getText();
-        this.highlightElement(by.id(body));
+    getUniqueTodo(_id: string) {
+        const todo = element(by.id(_id)).getText();
+        this.highlightElement(by.id(_id));
 
         return todo;
     }
@@ -86,5 +75,4 @@ export class TodoPage {
         this.highlightElement(by.id('addNewTodo'));
         return element(by.id('addNewTodo')).click();
     }
-
 }

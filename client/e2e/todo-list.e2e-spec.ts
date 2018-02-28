@@ -32,22 +32,24 @@ describe('Todo list', () => {
 
     it('should type something in filter category box and check that it returned correct element', () => {
         page.navigateTo();
-        page.typeACategory('t');
-        expect(page.getUniqueTodo('Incididunt enim ea sit qui esse magna eu. Nisi sunt exercitation est Lorem consectetur incididunt cupidatat laboris commodo veniam do ut sint.')).toEqual('Blanche');
+        page.typeACategory('sof');
+        expect(page.getUniqueTodo('58af3a600343927e48e87212')).toEqual('Blanche');
         page.backspace();
-        page.typeACategory('h');
-        expect(page.getUniqueTodo('Veniam ut ex sit voluptate Lorem. Laboris ipsum nulla proident aute culpa esse aute pariatur velit deserunt deserunt cillum officia dolore.')).toEqual('Fry');
+        page.backspace();
+        page.backspace();
+        page.typeACategory('software');
+        expect(page.getUniqueTodo('58af3a600343927e48e87212')).toEqual('Blanche');
     });
     it('should type something in filter body box and check that it returned correct element', () => {
         page.navigateTo();
         page.typeABody('sunt');
-        expect(page.getUniqueTodo('Incididunt enim ea sit qui esse magna eu. Nisi sunt exercitation est Lorem consectetur incididunt cupidatat laboris commodo veniam do ut sint.')).toEqual('Blanche');
+        expect(page.getUniqueTodo('58af3a600343927e48e87212')).toEqual('Blanche');
     });
     it('Should open the expansion panel and get the body', () => {
         page.navigateTo();
         page.getBody('Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.');
 
-        expect(page.getUniqueTodo('Ullamco irure laborum magna dolor non. Anim occaecat adipisicing cillum eu magna in.')).toEqual('Fry');
+        expect(page.getUniqueTodo('58af3a600343927e48e87211')).toEqual('Fry');
 
         // This is just to show that the panels can be opened
         browser.actions().sendKeys(Key.TAB).perform();
@@ -60,10 +62,10 @@ describe('Todo list', () => {
         page.getTodos().then(function(todos) {
             expect(todos.length).toBe(10);
         });
-        expect(page.getUniqueTodo('In sunt ex non tempor cillum commodo amet incididunt anim qui commodo quis. Cillum non labore ex sint esse.')).toEqual('Blanche');
-        expect(page.getUniqueTodo('Aliqua esse aliqua veniam id nisi ea. Ullamco Lorem ex aliqua aliquip cupidatat incididunt reprehenderit voluptate ad nisi elit dolore laboris.')).toEqual('Blanche');
-        expect(page.getUniqueTodo('Incididunt Lorem magna velit laborum enim. Eu nisi laboris aliquip magna eu pariatur occaecat occaecat amet consectetur officia ad amet minim.')).toEqual('Blanche');
-        expect(page.getUniqueTodo('Ullamco quis id exercitation qui aliquip dolor mollit pariatur veniam nisi consectetur ullamco. Lorem cillum sint fugiat enim consequat veniam laboris eiusmod.')).toEqual('Blanche');
+        expect(page.getUniqueTodo('58af3a600343927e48e87213')).toEqual('Blanche');
+        expect(page.getUniqueTodo('58af3a600343927e48e87216')).toEqual('Blanche');
+        expect(page.getUniqueTodo('58af3a600343927e48e87212')).toEqual('Blanche');
+        expect(page.getUniqueTodo('58af3a600343927e48e8720f')).toEqual('Blanche');
     });
 
     it('Should allow us to clear a search for owner and then still successfully search again', () => {
@@ -126,6 +128,27 @@ describe('Todo list', () => {
         element(by.id('statusField')).sendKeys('true');
         expect(element(by.id('bodyField')).isPresent()).toBeTruthy('There should be an body field');
         element(by.id('bodyField')).sendKeys('Sunt ipsum');
+    });
+
+    it('Should open a dropdown menu when status button is clicked', () => {
+        page.navigateTo();
+        element(by.id('todoStatus')).click();
+        element(by.css('.mat-option[value="false"]')).click();
+        expect(page.getUniqueTodo('58af3a600343927e48e87217')).toEqual('Fry');
+        element(by.id('todoStatus')).click();
+        element(by.css('.mat-option[value="true"]')).click();
+        expect(page.getUniqueTodo('58af3a600343927e48e87213')).toEqual('Blanche');
+        element(by.id('todoStatus')).click();
+        element(by.css('.mat-option[value=""]')).click();
+        expect(page.getUniqueTodo('58af3a600343927e48e87213')).toEqual('Blanche');
+    });
+    it('Get Todos with combination of fields, including owner and status', () => {
+        page.navigateTo();
+        element(by.id('todoStatus')).click();
+        element(by.css('.mat-option[value="false"]')).click();
+        page.typeACategory('sof');
+        page.getOwner('Workman');
+        expect(page.getUniqueTodo('58af3a600343927e48e87231')).toEqual('Workman');
     });
 });
 

@@ -14,9 +14,9 @@
                 <form>
                     <label>Status: </label>
                     <mat-select name="dropdown" id="todoStatus" (click)="todoStatus = todoStatus">
-                        <mat-option value="" id="empty" (click)="todoStatus = null"></mat-option>
-                        <mat-option value="false" id="false" (click)="todoStatus = false" >False</mat-option>
-                        <mat-option value="true" id="true" (click)="todoStatus = true">True</mat-option>
+                        <mat-option value="" (click)="todoStatus = null"></mat-option>
+                        <mat-option value="false" (click)="todoStatus = false" >False</mat-option>
+                        <mat-option value="true" (click)="todoStatus = true">True</mat-option>
                     </mat-select>
                 </form>
                 <mat-form-field>
@@ -34,11 +34,12 @@
                 <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
 
                 <mat-accordion *ngIf="todos; else todosError" >
-                    <mat-expansion-panel #elem class="todos" [id]="todo.body" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoCategory,todoBody, todoStatus) | slice:index:index+10; let i=index;">
+                    <mat-expansion-panel #elem class="todos" [id]="todo._id['$oid']" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoCategory,todoBody, todoStatus) | slice:index:index+10; let i=index;">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{todo.owner}}</mat-panel-title>
 
                         </mat-expansion-panel-header>
+                        <mat-panel-description >ID: {{todo._id['$oid']}}</mat-panel-description>
                         <mat-panel-description >Category: {{todo.category}}</mat-panel-description>
                         <mat-panel-description >Body: {{todo.body}}</mat-panel-description>
                         <mat-panel-description >Status: {{todo.status}}</mat-panel-description>
