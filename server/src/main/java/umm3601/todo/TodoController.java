@@ -12,6 +12,18 @@ import org.bson.types.ObjectId;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.mongodb.Block;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.AggregateIterable;
+import java.util.Arrays;
+import java.util.List;
+
 import static com.mongodb.client.model.Filters.eq;
 
 /**
@@ -59,9 +71,9 @@ public class TodoController {
 
 
     /** Helper method which iterates through the collection, receiving all
-     * documents if no query parameter is specified. If the age query parameter
+     * documents if no query parameter is specified. If the owner query parameter
      * is specified, then the collection is filtered so only documents of that
-     * specified age are found.
+     * specified owner are found.
      *
      * @param queryParams
      * @return an array of Todos in a JSON formatted string
@@ -112,5 +124,62 @@ public class TodoController {
             me.printStackTrace();
             return null;
         }
+    }
+
+    public String getTodoSummary(){
+        float count = todoCollection.count();
+        float percent = 100/count;
+
+        AggregateIterable<Document> categories = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.group("$category", Accumulators.sum("count", 1))
+            )
+        );
+
+        AggregateIterable<Document> owners = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.group("$owner", Accumulators.sum("count", 1))
+            )
+        );
+
+        AggregateIterable<Document> statuss = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.match(Filters.eq("status", true)),
+                Aggregates.group("$status", Accumulators.sum("count", 1))
+            )
+        );
+
+        AggregateIterable<Document> finOwner = todoCollection.aggregate(
+
+            Arrays.asList(
+                Aggregates.match(Filters.eq("status", true)),
+                Aggregates.group("$owner", Accumulators.sum("count", 1),
+                    Accumulators.sum("percent", percent))
+
+            )
+        );
+
+
+        AggregateIterable<Document> catOwner = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.match(Filters.eq("category", "homework")),
+                Aggregates.group("$owner", Accumulators.sum("count", 1),
+                    Accumulators.sum("percent", percent))
+            )
+        );
+
+
+        AggregateIterable<Document> bodyOwner = todoCollection.aggregate(
+            Arrays.asList(
+                Aggregates.match(Filters.eq("body", "sunt")),
+                Aggregates.group("$owner", Accumulators.sum("count", 1),
+                    Accumulators.sum("percent", percent))
+            )
+        );
+
+        List pipe = Arrays.asList(owners, statuss);
+
+        return JSON.serialize(pipe);
+
     }
 }

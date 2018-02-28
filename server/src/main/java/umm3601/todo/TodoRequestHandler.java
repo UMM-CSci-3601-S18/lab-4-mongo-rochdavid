@@ -109,4 +109,8 @@ public class TodoRequestHandler {
             return null;
         }
     }
+
+    public String getTodoSummary(Request req, Response res) {
+        return todoController.getTodoSummary();
+    }
 }
