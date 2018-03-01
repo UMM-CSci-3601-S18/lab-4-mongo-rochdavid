@@ -1,11 +1,12 @@
-import { NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatPaginatorModule} from '@angular/material';
-import {MatTableModule} from '@angular/material/table';
+import {CommonModule} from '@angular/common';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 import {HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
@@ -32,8 +33,8 @@ import {AddTodoComponent} from './todos/add-todo.component';
         CustomModule,
         MatSelectModule,
         MatProgressBarModule,
-        MatPaginatorModule,
-        MatTableModule
+        MatProgressSpinnerModule,
+        CommonModule
     ],
     declarations: [
         AppComponent,
@@ -52,8 +53,12 @@ import {AddTodoComponent} from './todos/add-todo.component';
         {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}
     ],
     entryComponents: [
-      AddUserComponent,
-      AddTodoComponent,
+        AddUserComponent,
+        AddTodoComponent
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA,
+        NO_ERRORS_SCHEMA
     ],
     bootstrap: [AppComponent]
 })

@@ -23,6 +23,7 @@ export class TodoListComponent implements OnInit {
     public loadReady = false;
     public length = 300;
     public index = 0;
+    public progress: number;
 
     // The ID of the
     private highlightedID: {'$oid': string} = { '$oid': '' };
@@ -126,6 +127,9 @@ export class TodoListComponent implements OnInit {
             });
         return todos;
     }
+    loadProgressBar(): void {
+        this.progress = (this.index / this.length) * 100;
+    }
 
 
     loadService(): void {
@@ -145,5 +149,6 @@ export class TodoListComponent implements OnInit {
     ngOnInit(): void {
         this.refreshTodos();
         this.loadService();
+        this.loadProgressBar();
     }
 }
