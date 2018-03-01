@@ -13,7 +13,7 @@
             <mat-card-content>
                 <!-- First Angular feature, dropdown menu -->
                 <form>
-                    <label>Status: </label>
+                    <label id="something">Status: </label>
                     <mat-select name="dropdown" id="todoStatus" (click)="todoStatus = todoStatus">
                         <mat-option value="" (click)="todoStatus = null"></mat-option>
                         <mat-option value="false" (click)="todoStatus = false" >False</mat-option>
@@ -37,7 +37,7 @@
                 <mat-accordion *ngIf="todos; else todosError" >
                     <mat-expansion-panel #elem class="todos" [id]="todo._id['$oid']" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoCategory,todoBody, todoStatus) | slice:index:index+10; let i=index;">
                         <mat-expansion-panel-header>
-                            <mat-panel-title>{{todo.owner}}</mat-panel-title>
+                            <mat-panel-title>{{todo.owner}}<mat-icon *ngIf="todo.status">done</mat-icon></mat-panel-title>
 
                         </mat-expansion-panel-header>
                         <mat-panel-description >ID: {{todo._id['$oid']}}</mat-panel-description>
@@ -71,19 +71,18 @@
                     </mat-error>
                 </ng-template>
             </mat-card-content>
-            <section>
-                <!-- This is another Angular feature, that make it able for you to see where you are on the todos page, relative to the total todos.
-                Unfortunately, for some unknwn reasons, although the progress bar works perfectly, it will break all of the client tests.
+            <!-- This is another Angular feature, that make it able for you to see where you are on the todos page, relative to the total todos.
+                Unfortunately, for some unknown reasons, although the progress bar works perfectly, it will break all of the client tests.
                  It says that value is not a property of mat-progress-bar. This error is usually when you did not import the module, but I did that,
                  and still gets the same error. I have imported some schemas to try and ignore this problem.
                  For now, I will comment this part out so that the tests pass, but it when check the webpage, it should definitely be put int to see how
                  it works.-->
-
-                <!-- <mat-progress-bar
+            <!--<section>
+                <mat-progress-bar
                     [value]="progress">
-                </mat-progress-bar> -->
+                </mat-progress-bar>
 
-            </section>
+            </section> -->
         </mat-card>
     </div>
 </div>

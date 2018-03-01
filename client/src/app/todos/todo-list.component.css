@@ -12,3 +12,49 @@
     padding-right: 14px;
 }
 
+.mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+    background-color: white;
+    font-size: 18px;
+    color: black;
+}
+
+
+#todo-list-title{
+    text-align: center;
+    font-size: 200%;
+    color: black;
+}
+
+.mat-card {
+    background: #e4c156;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-card mat-card-title {
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    background-color: #e4c156;
+}
+
+content, .mat-card-subtitle, .mat-card-title {
+    display: block;
+    margin-bottom: 0px;
+}
+
+.mat-input-container mat-form-field{
+    color: #e4c156;
+}
+.mat-expansion-panel:hover {
+    background: #e4c156;
+}
+.mat-button, .mat-raised-button, .mat-icon-button, .mat-fab, .mat-mini-fab {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+#something{
+    font-size: 19px;
+}

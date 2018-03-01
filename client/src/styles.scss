@@ -8,3 +8,35 @@
 .nav-active mat-icon {
     color: mat-color($accent) !important;
 }
+.mat-toolbar.mat-primary {
+    background: #e4c156;
+    color: black;
+}
+
+.mat-drawer {
+    background-color: #e4c156;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-toolbar {
+    background: #e4c156;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+body .md-subhead {
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.010em;
+    line-height: 24px;
+    color: black;
+    text-align: center;
+}
+
+.nav-active {
+    background-color: whitesmoke !important;
+    color: #e4c156 !important;
+}
+
+.nav-active mat-icon {
+    color: #e4c156 !important;
+}
