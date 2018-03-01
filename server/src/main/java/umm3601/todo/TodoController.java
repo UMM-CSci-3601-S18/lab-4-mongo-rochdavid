@@ -6,24 +6,17 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
-import com.mongodb.util.JSONSerializers;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
-import com.mongodb.Block;
 import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.AggregateIterable;
-import java.util.Arrays;
-import java.util.List;
+import com.mongodb.client.MongoCursor;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -118,7 +111,7 @@ public class TodoController {
         try {
             todoCollection.insertOne(newTodo);
             ObjectId id = newTodo.getObjectId("_id");
-            System.err.println("Successfully added new user [_id=" + id + ", owner=" + owner + ", category=" + category + " status=" + status + " body=" + body + ']');
+            System.err.println("Successfully added new todo [_id=" + id + ", owner=" + owner + ", category=" + category + " status=" + status + " body=" + body + ']');
             // return JSON.serialize(newTodo);
             return JSON.serialize(id);
         } catch(MongoException me) {
@@ -132,53 +125,108 @@ public class TodoController {
         float count = todoCollection.count();
         float percent = 100/count;
 
+        Document doc = new Document();
+
+        //Breakdown of todos by owners by percentage
         AggregateIterable<Document> breakdownOwner = todoCollection.aggregate(
             Arrays.asList(
                 Aggregates.group("$owner", Accumulators.sum("count", 1), Accumulators.sum("percentage_of_total_todos", percent))
             )
         );
 
-        AggregateIterable<Document> test = todoCollection.aggregate(
+        doc.append("breakDownOwners", breakdownOwner);
+
+        //Here we are getting all of the unique owners and categories from the Todos
+
+        AggregateIterable<Document> owners0 = todoCollection.aggregate(
 
             Arrays.asList(
-                Aggregates.group("$owner", Accumulators.sum("count_complete", 1))
+                Aggregates.group("$owner")
             )
         );
 
-
-
-
-
-        AggregateIterable<Document> finOwner = todoCollection.aggregate(
+        AggregateIterable<Document> categories0 = todoCollection.aggregate(
 
             Arrays.asList(
-                Aggregates.match(Filters.eq("status", true)),
-                Aggregates.group("$owner", Accumulators.sum("count", 1),
-                    Accumulators.sum("percent", percent))
-
+                Aggregates.group("$category")
             )
         );
 
-
-        AggregateIterable<Document> catOwner = todoCollection.aggregate(
-            Arrays.asList(
-                Aggregates.match(Filters.eq("category", "homework")),
-                Aggregates.group("$owner", Accumulators.sum("count", 1),
-                    Accumulators.sum("percent", percent))
-            )
-        );
+        LinkedHashMap<String, Integer> map_owner = new LinkedHashMap<String, Integer>();
+        MongoCursor<Document> owner_iterator = owners0.iterator();
+        while (owner_iterator.hasNext()) {
+            Document next = owner_iterator.next();
+            map_owner.put(next.getString("_id"), next.getInteger("_count"));
+        }
 
 
-        AggregateIterable<Document> bodyOwner = todoCollection.aggregate(
-            Arrays.asList(
-                Aggregates.match(Filters.eq("body", "sunt")),
-                Aggregates.group("$owner", Accumulators.sum("count", 1),
-                    Accumulators.sum("percent", percent))
-            )
-        );
+        LinkedHashMap<String, Integer> map_categories = new LinkedHashMap<String, Integer>();
+        MongoCursor<Document> categories_iterator = categories0.iterator();
+        while (categories_iterator.hasNext()) {
+            Document next = categories_iterator.next();
+            map_categories.put(next.getString("_id"), next.getInteger("_count"));
+        }
+        // Turn the unique categories and owners into object arrays
+        Object[] owners = map_owner.keySet().toArray();
+        Object[] categories = map_categories.keySet().toArray();
 
-        List pipe = Arrays.asList(breakdownOwner,test, finOwner,catOwner,bodyOwner);
+        System.out.println(JSON.serialize(owners));
+        System.out.println(JSON.serialize(categories));
 
-        return JSON.serialize(pipe);
+        // Instead of getting the count, get the percentage of one category/owner
+
+        float[] owners_total = new float[owners.length];
+        float[] category_total = new float[categories.length];
+
+
+
+        for(int i = 0; i < owners.length; i++){
+            Document newDoc = new Document("owner", owners[i]);
+            owners_total[i] = 100 / (float)todoCollection.count(newDoc);
+        }
+
+        for(int i = 0; i < categories.length; i++){
+            Document newDoc = new Document("category", categories[i]);
+            category_total[i] = 100 / (float)todoCollection.count(newDoc);
+        }
+
+        System.out.println(categories.length);
+        System.out.println(owners.length);
+
+        // Append owners and categories information to the doc Document
+
+        for (int i = 0; i < owners.length; i++) {
+            doc.append(owners[i] + ": OwnersPercentageComplete", todoCollection.aggregate(
+                Arrays.asList(
+                    Aggregates.match(Filters.eq("owner", owners[i])),
+                    Aggregates.match(Filters.eq("status", true)),
+                    Aggregates.group("$owner", Accumulators.sum("Completed Todos", 1) , Accumulators.sum("Percentage Completed", owners_total[i]))
+                )
+                )
+            );
+        }
+
+        for (int i = 0; i < categories.length; i++) {
+            doc.append(categories[i] + ": CategoriesPercentageComplete", todoCollection.aggregate(
+                Arrays.asList(
+                    Aggregates.match(Filters.eq("category", categories[i])),
+                    Aggregates.match(Filters.eq("status", true)),
+                    Aggregates.group("$category", Accumulators.sum("Completed Todos", 1) , Accumulators.sum("Percentage Completed", category_total[i]))
+                )
+                )
+            );
+        }
+
+        //System.out.println(doc.toJson());
+
+        return doc.toJson();
+    }
+
+    public static void main(String[] args) {
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase todoDatabase = mongoClient.getDatabase("dev");
+        TodoController todoController = new TodoController(todoDatabase);
+
+        System.out.println(todoController.getTodoSummary());
     }
 }
